@@ -18,10 +18,32 @@ class BaseModel:
         to_dict(): Converts the instance to a dictionary for serialization.
         __str__(): Returns a string representation of the instance.
     """
-    def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+    def __init__(self, *args, **kwargs):
+        """
+        Initializes a BaseModel instance.
+
+        Args:
+            *args: Unused arguments.
+            **kwargs: Keyword arguments representing attribute name-value pairs.
+                      Each key is an attribute name, and each value is the value of that attribute.
+                      If 'kwargs' is not empty, it recreates the instance from the dictionary representation.
+                      Otherwise, it creates a new instance with generated 'id' and 'created_at'.
+
+        Note:
+            'created_at' and 'updated_at' attributes are converted from string to datetime objects.
+        """
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != '__class__':
+                    if key in ('created_at', 'updated_at'):
+                        setattr(self, key, datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
+                    else:
+                        setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+
 
     def save(self):
         """
