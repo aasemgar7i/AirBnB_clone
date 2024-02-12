@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import cmd
 
+
 class HBNBCommand(cmd.Cmd):
     """
     HBNBCommand class representing the command interpreter.
@@ -47,6 +48,7 @@ class HBNBCommand(cmd.Cmd):
         Default method called when the entered command is not recognized.
         """
         print("*** Unknown syntax: {}".format(line))
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
